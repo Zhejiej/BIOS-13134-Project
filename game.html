@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="An interactive CRISPR gene knockout game built on real maize genetics research.">
+<title>Grow the Best Maize, Field Notebook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<button id="help-btn" type="button" aria-label="How to play" title="How to play">?</button>
+
+<div class="wrap" id="lab-wrap">
+
+  <!-- ===== MASTHEAD ===== -->
+  <header class="masthead">
+    <h1>Grow the <em>Best</em> Maize</h1>
+    <div class="masthead-meta">
+      <span class="byline">BIOS13134 Project, Jacky Jiang</span>
+      <span class="masthead-steps">
+        <span class="step"><span class="num">1</span> Knock out genes</span>
+        <span class="step"><span class="num">2</span> Grow &amp; read results</span>
+        <button class="reset-btn" id="reset-btn" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>
+          Reset
+        </button>
+      </span>
+    </div>
+  </header>
+
+  <!-- ===== PLANT BIOLOGY PRIMER ===== -->
+  <section id="primer" class="brief">
+    <p class="section-title">Plant meristem</p>
+    <div class="brief-grid cols-3">
+      <div class="brief-block">
+        <h3>What it is</h3>
+        <p>
+          A tiny dome of <b>stem cells</b> at the tip of every shoot, about the size of a pinhead. These
+          cells keep dividing and have not turned into any specific part yet, so unlike an animal, a plant
+          never stops growing.
+        </p>
+      </div>
+      <div class="brief-block">
+        <h3>What it does</h3>
+        <p>
+          It grows new parts around its edges, first leaves and later the small buds that turn into
+          <b>kernels</b>. Every part of the plant starts from that one dome.
+        </p>
+      </div>
+      <div class="brief-block">
+        <h3>Why it matters</h3>
+        <p>
+          A wider dome has more room around its edge, so it can fit more rows of kernels on the cob. That
+          means a higher <b>yield</b>, the amount of grain a plant makes. Raising yield is how farmers feed
+          more people without using more land, so the meristem genes below matter a lot.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== QUESTION + HYPOTHESIS ===== -->
+  <section id="inquiry" class="brief">
+    <p class="section-title">Question &amp; hypothesis</p>
+    <div class="brief-grid cols-2">
+      <div class="brief-block">
+        <h3>The question</h3>
+        <p>
+          Which genes keep the meristem's <b>stem cells</b> under control, and does changing them affect
+          how much corn the plant makes? Two gene groups, <i>ZmPFKB</i> and <i>ZmADK</i>, looked like they
+          were switched on by the main stem-cell gene <i>ZmWUS1</i>.
+        </p>
+      </div>
+      <div class="brief-block">
+        <h3>The hypothesis</h3>
+        <p>
+          If <i>ZmPFKB</i> and <i>ZmADK</i> normally help hold the meristem back, then turning them off
+          should let it grow <b>bigger</b>. And since a bigger meristem can hold more kernels, those same
+          genes should also be tied to how much corn the plant makes.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== NOTEBOOK SHEET ===== -->
+  <div class="sheet">
+    <div class="lab-grid">
+
+      <!-- LEFT: genes -->
+      <section class="col col-genes">
+        <p class="section-title">Genes <span class="hint">tap to knock out</span></p>
+
+        <div class="gene-toggle" data-gene="pfkb" role="switch" tabindex="0" aria-checked="false" aria-describedby="desc-pfkb">
+          <span class="ko-stamp" aria-hidden="true">Knocked out</span>
+          <div class="row">
+            <span class="gene-name">
+              <svg class="gene-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3c0 4 8 5 8 9s-8 5-8 9"/><path d="M16 3c0 4-8 5-8 9s8 5 8 9"/><path d="M9 6h6M8.2 9.5h7.6M8.2 14.5h7.6M9 18h6"/></svg>
+              ZmPFKB <span class="tag">meristem</span>
+            </span>
+            <div class="switch"><span class="knob"></span></div>
+          </div>
+          <p class="gene-desc" id="desc-pfkb">A sugar-kinase brake downstream of the stem-cell gene ZmWUS1. Knock it out to enlarge the meristem.</p>
+        </div>
+
+        <div class="gene-toggle" data-gene="adk" role="switch" tabindex="0" aria-checked="false" aria-describedby="desc-adk">
+          <span class="ko-stamp" aria-hidden="true">Knocked out</span>
+          <div class="row">
+            <span class="gene-name">
+              <svg class="gene-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3c0 4 8 5 8 9s-8 5-8 9"/><path d="M16 3c0 4-8 5-8 9s8 5 8 9"/><path d="M9 6h6M8.2 9.5h7.6M8.2 14.5h7.6M9 18h6"/></svg>
+              ZmADK <span class="tag">meristem</span>
+            </span>
+            <div class="switch"><span class="knob"></span></div>
+          </div>
+          <p class="gene-desc" id="desc-adk">Activates cytokinin. Knock it out to raise active cytokinin and enlarge the meristem, but the plant dwarfs.</p>
+        </div>
+
+        <div class="gene-toggle" data-gene="krn2" role="switch" tabindex="0" aria-checked="false" aria-describedby="desc-krn2">
+          <span class="ko-stamp" aria-hidden="true">Knocked out</span>
+          <div class="row">
+            <span class="gene-name">
+              <svg class="gene-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3c0 4 8 5 8 9s-8 5-8 9"/><path d="M16 3c0 4-8 5-8 9s8 5 8 9"/><path d="M9 6h6M8.2 9.5h7.6M8.2 14.5h7.6M9 18h6"/></svg>
+              KRN2 <span class="tag">yield</span>
+            </span>
+            <div class="switch"><span class="knob"></span></div>
+          </div>
+          <p class="gene-desc" id="desc-krn2">Limits how many kernel rows form on the ear. Knock it out to raise row number and boost yield directly.</p>
+        </div>
+
+        <div class="gene-toggle" data-gene="br2" role="switch" tabindex="0" aria-checked="false" aria-describedby="desc-br2">
+          <span class="ko-stamp" aria-hidden="true">Knocked out</span>
+          <div class="row">
+            <span class="gene-name">
+              <svg class="gene-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3c0 4 8 5 8 9s-8 5-8 9"/><path d="M16 3c0 4-8 5-8 9s8 5 8 9"/><path d="M9 6h6M8.2 9.5h7.6M8.2 14.5h7.6M9 18h6"/></svg>
+              Br2 <span class="tag">height</span>
+            </span>
+            <div class="switch"><span class="knob"></span></div>
+          </div>
+          <p class="gene-desc" id="desc-br2">Brachytic2 moves auxin down the stalk. Knock it out for a short, sturdy dwarf that stands at high density.</p>
+        </div>
+
+        <div class="gene-toggle" data-gene="dwarf8" role="switch" tabindex="0" aria-checked="false" aria-describedby="desc-dwarf8">
+          <span class="ko-stamp" aria-hidden="true">Knocked out</span>
+          <div class="row">
+            <span class="gene-name">
+              <svg class="gene-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3c0 4 8 5 8 9s-8 5-8 9"/><path d="M16 3c0 4-8 5-8 9s8 5 8 9"/><path d="M9 6h6M8.2 9.5h7.6M8.2 14.5h7.6M9 18h6"/></svg>
+              dwarf8 <span class="tag">height</span>
+            </span>
+            <div class="switch"><span class="knob"></span></div>
+          </div>
+          <p class="gene-desc" id="desc-dwarf8">A second maize height gene. Knock it out for a milder dwarfing effect than Br2.</p>
+        </div>
+
+        <button class="grow-btn" id="grow-btn" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20h14"/><path d="M12 20v-8"/><path d="M12 12c0-3-2.5-5-6-5 0 3.5 2.5 5 6 5z"/><path d="M12 13c0-2.5 2-4.5 5-4.5 0 3-2.5 4.5-5 4.5z"/></svg>
+          Grow seed
+        </button>
+      </section>
+
+      <!-- CENTER: specimen + notes -->
+      <section class="col col-center">
+        <div class="screen-card">
+          <p class="section-title">Specimen <span class="hint" id="stage-hint">fully grown</span></p>
+          <div class="specimen-frame">
+            <div class="plant-box" id="plant-box"></div>
+          </div>
+          <div class="growth-controls">
+            <div class="slider-label"><span>Growth stage</span><b id="growth-out">100%</b></div>
+            <input type="range" min="0" max="100" value="100" id="growth-slider" class="grow-slider" aria-label="Growth stage">
+            <div class="stage-badges"><span>seedling</span><span>ear fill</span><span>mature</span></div>
+          </div>
+        </div>
+
+        <div class="desc-block">
+          <p class="section-title">Field note</p>
+          <p class="live-desc" id="live-desc"></p>
+        </div>
+      </section>
+
+      <!-- RIGHT: readout -->
+      <section class="col col-results">
+        <p class="section-title">Results</p>
+
+        <div class="stat">
+          <div class="stat-top">
+            <span class="stat-label">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20v-6"/><path d="M12 14c0-2.5-2-4-5-4 0 3 2 4 5 4z"/><path d="M12 14c0-2.5 2-4 5-4 0 3-2 4-5 4z"/></svg>
+              Meristem area
+            </span>
+            <span class="stat-value" id="area-val">13,000 &micro;m&sup2;</span>
+          </div>
+          <div class="bar-track"><div class="bar-fill" id="area-bar" style="background:var(--leaf)"></div></div>
+          <p class="stat-note" id="area-note">Same as wild type.</p>
+        </div>
+
+        <div class="stat">
+          <div class="stat-top">
+            <span class="stat-label">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 21V3h8v18"/><path d="M8 8h4M8 13h4M8 18h4"/></svg>
+              Plant height
+            </span>
+            <span class="stat-value" id="height-val">200 cm</span>
+          </div>
+          <div class="bar-track"><div class="bar-fill" id="height-bar" style="background:var(--gold-deep)"></div></div>
+          <p class="stat-note" id="height-note">Same as wild type.</p>
+        </div>
+
+        <div class="stat">
+          <div class="stat-top">
+            <span class="stat-label">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+              Kernel rows
+            </span>
+            <span class="stat-value" id="rows-val">16 rows</span>
+          </div>
+          <div class="bar-track"><div class="bar-fill" id="rows-bar" style="background:#4E7B3F"></div></div>
+          <p class="stat-note" id="rows-note">Same as wild type.</p>
+        </div>
+
+        <div class="stat">
+          <div class="stat-top">
+            <span class="stat-label">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 20h12M9 20v-5M12 20V9M15 20v-8"/></svg>
+              Predicted yield
+            </span>
+            <span class="stat-value" id="yield-val">500 kernels</span>
+          </div>
+          <div class="bar-track"><div class="bar-fill" id="yield-bar" style="background:var(--clay)"></div></div>
+          <p class="stat-note" id="yield-note">Same as wild type.</p>
+        </div>
+
+        <div class="callout" id="callout">
+          <b>Real result.</b> With no genes knocked out, this matches the wild type control plants from Xu et al. (2025).
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- ===== PRIMARY STUDY WRITE-UP ===== -->
+  <div id="additional">
+    <p class="section-title">Additional information</p>
+    <div class="additional-grid">
+      <div class="info-col">
+        <h3>Methods</h3>
+        <p>
+          The team first profiled thousands of single shoot cells to recover the rare stem cells that earlier
+          studies kept losing, which flagged the <i>ZmPFKB</i> and <i>ZmADK</i> gene families as candidates.
+          They then used multiplex CRISPR-Cas9 to knock those genes out, making a <i>Zmpfkb1;2;3</i> triple
+          mutant and, for <i>ZmADK</i>, only a partial mutant since the full double knockout was lethal. They
+          measured shoot meristem area against wild-type controls with a one-way ANOVA, and a separate GWAS
+          scan tested whether the same genes lined up with yield traits in field data.
+        </p>
+      </div>
+      <div class="info-col">
+        <h3>Results</h3>
+        <p>
+          Knocking out either gene family enlarged the meristem, matching the prediction. The <i>ZmADK</i>
+          mutants grew a larger meristem even though the rest of the plant stayed dwarfed, which tells us the
+          meristem is controlled somewhat separately from overall plant size. The exciting part is that
+          <i>ZmPFKB1</i> also showed up in a genome-wide scan as linked to ears with more kernel rows. That
+          connects a basic stem-cell gene directly to yield, giving breeders a new lever to grow more food on
+          the same amount of land.
+        </p>
+      </div>
+      <div class="info-col">
+        <h3>Future directions</h3>
+        <p>
+          The stem-cell map turned up many redundant regulators that quietly back each other up, so changing
+          one gene alone often does little. The clear next step is to knock out several genes at once and watch
+          how their effects combine. Testing those combinations fills the gaps that single-gene experiments
+          leave behind, and it can surface brand new results, like gene stacks that push yield further than any
+          one edit could on its own.
+        </p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="script.js"></script>
+<script src="plant-frames.js"></script>
+<script src="tour.js"></script>
+</body>
+</html>
